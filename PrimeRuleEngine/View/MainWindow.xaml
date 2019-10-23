@@ -1,0 +1,160 @@
+﻿<Window x:Class="PrimeRuleEngine.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:PrimeRuleEngine.View.Converters"
+    Title="Prime Rule Engine" MinHeight="700" MinWidth="850" Height="700" Width="850">
+    <Window.Resources>
+        <ResourceDictionary>
+            <converters:BoolToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="80"/>            
+            <RowDefinition Height="220"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="5"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="30"/>
+        </Grid.ColumnDefinitions>
+        
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="80"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="150"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Name="txt_ipName" Text="Add input file" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBox Name="txt_filePath" Text="{Binding InputFilePath}" Grid.Row="0" Grid.Column="1" Width="540" Height="30" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
+            <Button Width="70"  Grid.Row="0" Grid.Column="2" Height="30" Content="Browse..."
+                            FontWeight="SemiBold"
+                            Background="#6693B1"
+                            Foreground="White"
+                            Click="BrowseFile"
+                            BorderThickness="0" VerticalAlignment="Center"/>            
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="1">
+            <Border BorderThickness="1" BorderBrush="#A3AFB9">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition Height="60"/>
+                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="60"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="15"/>
+                        <ColumnDefinition Width="210"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="210"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="230"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Name="txt_plbl" Text="Parameter name" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="13"/>
+                    <TextBox Name="txt_pname" Text="{Binding ParamName}" Grid.Row="1" Grid.Column="1" Width="100" Height="30" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBox.ToolTip>
+                            Name of the parameter. Ex : value
+                        </TextBox.ToolTip>
+                    </TextBox>
+
+                    <TextBlock Name="txt_pvallbl" Text="Parameter value" Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="13"/>
+                    <TextBox Name="txt_pval" Text="{Binding ParamValue}" Grid.Row="1" Grid.Column="3" Width="100" Height="30" HorizontalAlignment="Right"
+                        VerticalAlignment="Center" VerticalContentAlignment="Center">
+                        <TextBox.ToolTip>
+                            <TextBlock>
+                                Param value must be type of Integer/Datetime/String
+                                <LineBreak/>
+                                If type is string, then only type HIGH or LOW (case sensitive)
+                            </TextBlock>
+                        </TextBox.ToolTip>
+                    </TextBox>
+
+                    <TextBlock Name="txt_oplbl" Text="Operator/Condition" Grid.Row="1" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="13"/>
+                    <TextBox Name="txt_opr" Text="{Binding Operator}" Grid.Row="1" Grid.Column="5" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        VerticalContentAlignment="Center">
+                        <TextBox.ToolTip>
+                            <TextBlock>
+                                Conditions supported as of now for Integer and Datetime : 
+                                <LineBreak/>
+                                '&lt; or less than', '&gt; or greater than', '&lt;= or less than or equal to', '&gt;= or greater than or equal to'.
+                                <LineBreak/>
+                                For string : 'contains', 'startswith', 'endswith'. 
+                                <LineBreak/>
+                                '== or equal to' and '!= or not equal to' is common for all types
+                            </TextBlock>
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <TextBlock Name="txt_whnlbl" Text="WHEN" Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="SemiBold"/>
+
+                    <TextBlock Name="txt_keylbl" Text="Key parameter" Grid.Row="3" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="13"/>
+                    <TextBox Name="txt_key" Text="{Binding KeyParamName}" Grid.Row="3" Grid.Column="3" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        VerticalContentAlignment="Center">
+                        <TextBox.ToolTip>
+                            KeyParameter name Ex : signal
+                        </TextBox.ToolTip>
+                    </TextBox>
+
+                    <TextBlock Name="txt_kvlbl" Text="Key parameter value" Grid.Row="3" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="13"/>
+                    <TextBox Name="txt_keyVal" Text="{Binding KeyParamValue}" Grid.Row="3" Grid.Column="5" Width="100" Height="30" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        VerticalContentAlignment="Center">
+                        <TextBox.ToolTip>
+                            KeyParameter value should be alpha numeric.
+                        </TextBox.ToolTip>
+                    </TextBox>
+                    <Button Height="30" Width="100" Grid.Row="4" Grid.Column="5" HorizontalAlignment="Left" VerticalAlignment="Center"
+                        Foreground="#0071BC" Background="White"
+                        FontWeight="SemiBold"
+                        BorderBrush="#0071BC" Command="{Binding ValidateAndSaveRuleCommand}">
+                            <Button.Content>
+                                <TextBlock>
+                                        <Underline>S</Underline>aveRule
+                                </TextBlock>
+                            </Button.Content>
+                    </Button>
+
+                    <Button Grid.Column="5" Grid.Row="4" Height="30" VerticalAlignment="Center" HorizontalAlignment="Right" Width="90"
+                        Background="#0071BC" Foreground="#FFFFFF" FontWeight="SemiBold" Command="{Binding ApplyRuleCommand}" 
+                        Visibility="{Binding IsApplyRuleVisible, Converter={StaticResource boolToVisibilityConverter}}">
+                            <TextBlock>
+                                <Underline>A</Underline>pplyRule
+                            </TextBlock>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+        
+        <TextBox BorderThickness="0" Name="txt_msg" Text="{Binding ErrorMessage}" Grid.Row="3" Grid.Column="1" FontSize="12" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="1" Text="List of data violating the given rule" FontSize="14" VerticalAlignment="Bottom"/>
+        
+        <Grid Grid.Row="6" Grid.Column="1">
+            <DataGrid Name = "dataGrid" AlternatingRowBackground = "LightBlue"  
+                AlternationCount= "2" AutoGenerateColumns = "False" RowHeight="20"
+                VerticalScrollBarVisibility="Visible" ItemsSource="{Binding FailedContents}">
+
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Header = "" Binding = "{Binding value_type}" Width="30"/>
+                    <DataGridTextColumn Header = "Signal" Binding = "{Binding signal}" Width="240"/>
+                    <DataGridTextColumn Header = "Value" Binding = "{Binding value}" Width="250"/>
+                    <DataGridTextColumn Header = "Value_type" Binding = "{Binding value_type}" Width="250"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>
